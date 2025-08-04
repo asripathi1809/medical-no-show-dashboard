@@ -17,24 +17,24 @@ To solve this real world problem, I worked on an **interactive Tableau dashboard
 -Tools Used: Python (data cleaning and preprocessing), Excel/CSV (exploration); Tableau (dashboard and data visualization)
 
 ## Key Insights:
--Patients waiting for **more than 8 days** are **2.5x more likely to no-show**
--**SMS reminders** reduce the chances of no-shows by **44% across all the age groups**
--Patients with chronic conditions **(especially Diabetes and Hypertension)** account for **HALF of no-shows**
--Appointments scheduled **within 2 days of booking** often experience around **30% higher no-show rates** (that's almost 1 in 3 people!)
+-Females have 50% more no-shows than men!
+-Non-Chronic minors (under the age of 18) have the highest amount of no-shows
+-The no-show rate dropped by 25% from May to June
 
 ## Actionable Recommendations:
--Send **SMS reminders** a night before to patients who have booked appointments for Tuesdays and Wednesdays
--Prioritize getting **chronic patients earlier slots** (it's better for their health to be checked up earlier!)
--**Restrict the wait times to less than 7 days**; more than that = more no shows = lost revenue
+-Prioritize reminder calls for Tuesday and Wednesday appointments
+-Outreach efforts for high-risk neighborhoods like Resistencia and Maria Ortiz
+-Target non-chronic minors with educational campaigns emphasizing the importance of checkups for early illness detection and improved treatment outcomes. 
 
 ## Business Impact:
+-Hospital Appointments in Brazil cost approximately $100 per appointment
 -Potential Savings in Revenue: **$223K/year**
 -Cost of Intervention: **$5.4K/year**
 -ROI: **3,850%**
 -**10% reduction** in no-shows = **2,232 more appointments/year (approx $223K more in revenue)**
 
 ## Dashboard:
-You can view the interactive Tableau dashboard here! https://public.tableau.com/app/profile/ananya.sripathi/viz/MedicalNo-Shows/Dashboard1
+Explore the interactive Tableau dashboard here! (https://public.tableau.com/app/profile/ananya.sripathi/viz/Why1in5PeopleMissAppointmentsinBrazil/Dashboard2)
 
 ## Author
 **Ananya Sripathi** - Data Analytics / Data Science Enthusiast
