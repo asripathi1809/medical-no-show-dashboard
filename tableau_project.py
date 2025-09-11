@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tableau Project.ipynb
+"""Tableau Project.ipynb"""
 
 #What this code does: This Python script cleans and preprocesses a hospital appointment dataset, handles missing values, corrects data types, and engineers new features such as scheduled and appointment hour, weekday, and month. These processed features were then used to build an interactive Tableau dashboard.
 #Why I chose Python: I chose Python for data cleaning and feature engineering due to its readability, efficiency, and the fact that I'm very comfortable with the programming language, Additionally, it integrates well with Tableau, which helps when preparing datasets for visualization.
