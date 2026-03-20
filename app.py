@@ -58,10 +58,22 @@ if uploaded_file is not None:
         max_value=len(df)-1,
         value=0
     )
-
     age_filter = st.sidebar.slider("Filter by Age", int(df['Age'].min()), int(df['Age'].max()), (0,100))
     gender_cols = [c for c in df.columns if c.startswith("Gender_")]
     selected_gender = st.sidebar.multiselect("Filter by Gender", gender_cols, default=gender_cols)
+
+    # -----------------------------
+    # Wrapper for LIME to avoid column mismatch
+    # -----------------------------
+    def model_predict_proba(x):
+        df_temp = pd.DataFrame(x, columns=df.columns)
+        # Ensure order matches model
+        if hasattr(model, "feature_names_in_"):
+            for col in model.feature_names_in_:
+                if col not in df_temp.columns:
+                    df_temp[col] = 0
+            df_temp = df_temp[model.feature_names_in_]
+        return model.predict_proba(df_temp)
 
     # -----------------------------
     # Patient Prediction Section
@@ -78,7 +90,7 @@ if uploaded_file is not None:
 
         # LIME explanation
         st.subheader("Why this prediction?")
-        exp = explainer.explain_instance(patient_data.values[0], model.predict_proba, num_features=5)
+        exp = explainer.explain_instance(patient_data.values[0], model_predict_proba, num_features=5)
         exp_df = pd.DataFrame(exp.as_list(), columns=['Feature','Contribution'])
         st.dataframe(exp_df)
         fig, ax = plt.subplots(figsize=(6,3))
@@ -92,18 +104,16 @@ if uploaded_file is not None:
     st.subheader("📊 Top High-Risk Patients Dashboard")
 
     # Filter dataset
-    filtered_df = df[
-        (df['Age'] >= age_filter[0]) & (df['Age'] <= age_filter[1])
-    ]
+    filtered_df = df[(df['Age'] >= age_filter[0]) & (df['Age'] <= age_filter[1])]
     if selected_gender:
         filtered_df = filtered_df[filtered_df[selected_gender].sum(axis=1) > 0]
 
-    # Predict for all filtered patients
+    # Predict probabilities for filtered patients
     filtered_df['NoShow_Prob'] = filtered_df.apply(lambda row: make_prediction(model, row.to_frame().T), axis=1)
 
     # Top 10 high-risk
     top_risk = filtered_df.sort_values(by='NoShow_Prob', ascending=False).head(10)
-    st.write(top_risk[['Age', 'NoShow_Prob'] + selected_gender])
+    st.write(top_risk[['Age','NoShow_Prob'] + selected_gender])
 
     # Plot top 10
     fig, ax = plt.subplots(figsize=(10,6))
@@ -120,4 +130,4 @@ if uploaded_file is not None:
         data=csv,
         file_name="top_risk_patients.csv",
         mime='text/csv'
-    )
+    ))
