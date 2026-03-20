@@ -24,7 +24,7 @@ if uploaded_file is not None:
     # -----------------------------
     st.subheader("Dataset Overview")
     st.write(df.describe())
-    fig, ax = plt.subplots(1,2, figsize=(12,4))
+    fig, ax = plt.subplots(1, 2, figsize=(12, 4))
     sns.countplot(x='NoShow', data=df, ax=ax[0])
     ax[0].set_title("No-Show Distribution")
     sns.histplot(df['Age'], bins=20, ax=ax[1])
@@ -44,7 +44,7 @@ if uploaded_file is not None:
     explainer = LimeTabularExplainer(
         df.values,
         feature_names=df.columns,
-        class_names=['Show','NoShow'],
+        class_names=['Show', 'NoShow'],
         mode='classification'
     )
 
@@ -58,16 +58,24 @@ if uploaded_file is not None:
         max_value=len(df)-1,
         value=0
     )
-    age_filter = st.sidebar.slider("Filter by Age", int(df['Age'].min()), int(df['Age'].max()), (0,100))
+    age_filter = st.sidebar.slider(
+        "Filter by Age",
+        int(df['Age'].min()),
+        int(df['Age'].max()),
+        (0, 100)
+    )
     gender_cols = [c for c in df.columns if c.startswith("Gender_")]
-    selected_gender = st.sidebar.multiselect("Filter by Gender", gender_cols, default=gender_cols)
+    selected_gender = st.sidebar.multiselect(
+        "Filter by Gender",
+        gender_cols,
+        default=gender_cols
+    )
 
     # -----------------------------
     # Wrapper for LIME to avoid column mismatch
     # -----------------------------
     def model_predict_proba(x):
         df_temp = pd.DataFrame(x, columns=df.columns)
-        # Ensure order matches model
         if hasattr(model, "feature_names_in_"):
             for col in model.feature_names_in_:
                 if col not in df_temp.columns:
@@ -84,16 +92,23 @@ if uploaded_file is not None:
         prob = make_prediction(model, patient_data)
         st.write(f"**Probability of No-Show:** {prob:.2f}")
         if prob > 0.7:
-            st.warning("⚠️ High risk of No-Show! Recommended actions: Reduce waiting time, send SMS reminder, avoid Fridays, call older patients.")
+            st.warning(
+                "⚠️ High risk of No-Show! Recommended actions: Reduce waiting time, "
+                "send SMS reminder, avoid Fridays, call older patients."
+            )
         else:
             st.success("✅ Low risk of No-Show")
 
         # LIME explanation
         st.subheader("Why this prediction?")
-        exp = explainer.explain_instance(patient_data.values[0], model_predict_proba, num_features=5)
-        exp_df = pd.DataFrame(exp.as_list(), columns=['Feature','Contribution'])
+        exp = explainer.explain_instance(
+            patient_data.values[0],
+            model_predict_proba,
+            num_features=5
+        )
+        exp_df = pd.DataFrame(exp.as_list(), columns=['Feature', 'Contribution'])
         st.dataframe(exp_df)
-        fig, ax = plt.subplots(figsize=(6,3))
+        fig, ax = plt.subplots(figsize=(6, 3))
         sns.barplot(x='Contribution', y='Feature', data=exp_df, palette='coolwarm', ax=ax)
         ax.set_title("Top 5 Features Contributing to Prediction")
         st.pyplot(fig)
@@ -109,14 +124,16 @@ if uploaded_file is not None:
         filtered_df = filtered_df[filtered_df[selected_gender].sum(axis=1) > 0]
 
     # Predict probabilities for filtered patients
-    filtered_df['NoShow_Prob'] = filtered_df.apply(lambda row: make_prediction(model, row.to_frame().T), axis=1)
+    filtered_df['NoShow_Prob'] = filtered_df.apply(
+        lambda row: make_prediction(model, row.to_frame().T), axis=1
+    )
 
     # Top 10 high-risk
     top_risk = filtered_df.sort_values(by='NoShow_Prob', ascending=False).head(10)
-    st.write(top_risk[['Age','NoShow_Prob'] + selected_gender])
+    st.write(top_risk[['Age', 'NoShow_Prob'] + selected_gender])
 
     # Plot top 10
-    fig, ax = plt.subplots(figsize=(10,6))
+    fig, ax = plt.subplots(figsize=(10, 6))
     sns.barplot(x='NoShow_Prob', y=top_risk.index, data=top_risk, palette='Reds', ax=ax)
     ax.set_xlabel("Predicted Probability of No-Show")
     ax.set_ylabel("Patient Row Index")
@@ -130,4 +147,4 @@ if uploaded_file is not None:
         data=csv,
         file_name="top_risk_patients.csv",
         mime='text/csv'
-    ))
+    )))
