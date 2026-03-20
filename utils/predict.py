@@ -1,14 +1,14 @@
-# utils/predict.py
 import joblib
-import pandas as pd
+import requests
+import os
+import streamlit as st
 
-def load_model(model_path='models/mo_pipeline.pkl'):
-    return joblib.load(model_path)
+MODEL_URL = "https://drive.google.com/uc?id=1P1Vr53XafaGaZVqxnXCqNvZRiZo_qrGU"
 
-def make_prediction(model, patient_data: pd.DataFrame):
-    """
-    patient_data: single row DataFrame with same columns as training data
-    returns probability of NoShow
-    """
-    prob = model.predict_proba(patient_data)[:, 1][0]
-    return prob
+@st.cache_resource
+def load_model():
+    if not os.path.exists("model.pkl"):
+        response = requests.get(MODEL_URL)
+        with open("model.pkl", "wb") as f:
+            f.write(response.content)
+    return joblib.load("model.pkl")
