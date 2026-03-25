@@ -1,42 +1,77 @@
 # medical-no-show-dashboard
 
-## Overview:
-1 in 5 patients miss their hospital appointments in Brazil. 
-Why should it matter?
-This can lead to serious things: money lost, wasted staff time, and delayed patient care. No-shows can potentially be life threatening. 
+Medical No-Show Analytics & Intervention Strategy
+Overview
 
-To solve this real world problem, I worked on an **interactive Tableau dashboard** analyzing over **110,000+ medical appointments** (**22,000 no-shows**) across Brazil, uncovering key factors contributing to no-shows and provide data driven recommendations for patients to reduce the number of missed appointments and improve the efficiencies of hospitals across Brazil. 
+Missed medical appointments are a persistent operational challenge—impacting provider utilization, delaying care, and creating avoidable revenue loss.
 
-## Problem Statement:
--Challenge: 20% of the people who book appointments don't show up - that's **1 in 5 people**
--Impact: Lost revenue, resources not allocated properly, patient care may face serious delays
--Goal: My dashboard identifies key drives of no-shows and derives insights on how to reduce them
+Using a dataset of 110,000+ appointments (22,000 no-shows) from Brazil, I built an interactive Tableau dashboard and analytical workflow to identify high-risk patient segments and simulate targeted intervention strategies.
 
-## Data & Tools Used:
--Dataset: Medical No-Shows Appointment Dataset from Kaggle (https://www.kaggle.com/datasets/joniarroba/noshowappointments)
--Tools Used: Python (data cleaning and preprocessing), Excel/CSV (exploration); Tableau (dashboard and data visualization)
+The goal was not just to analyze no-shows—but to answer:
 
-## Key Insights:
--Females have 50% more no-shows than men!
--Non-Chronic minors (under the age of 18) have the highest amount of no-shows
--The no-show rate dropped by 25% from May to June
+Where should a hospital focus its limited outreach resources to reduce missed appointments most effectively?
 
-## Actionable Recommendations:
--Prioritize reminder calls for Tuesday and Wednesday appointments
--Outreach efforts for high-risk neighborhoods like Resistencia and Maria Ortiz
--Target non-chronic minors with educational campaigns emphasizing the importance of checkups for early illness detection and improved treatment outcomes. 
+Problem Framing
+~20% of scheduled appointments result in no-shows (~1 in 5)
+This creates:
+Underutilized provider capacity
+Delayed patient care
+Inefficient allocation of scheduling resources
 
-## Business Impact:
--Hospital Appointments in Brazil cost approximately $100 per appointment
--Potential Savings in Revenue: **$223K/year**
--Cost of Intervention: **$5.4K/year**
--ROI: **3,850%**
-**10% reduction** in no-shows = **2,232 more appointments/year (approx $223K more in revenue)**
+Objective:
+Identify actionable drivers of no-shows and translate them into prioritized, cost-effective intervention strategies
 
-## Dashboard:
-Explore the interactive Tableau dashboard here! (https://public.tableau.com/app/profile/ananya.sripathi/viz/Why1in5PeopleMissAppointmentsinBrazil/Dashboard2)
+Data & Methodology
+Dataset: Medical No-Shows (Kaggle)
+Tools: Python (cleaning, feature prep), Tableau (visualization), Excel (exploration)
+Key steps:
+Cleaned and validated inconsistent patient and appointment records
+Engineered features such as:
+Age groups
+Chronic condition indicators
+Neighborhood-level patterns
+Segmented patients to identify high-risk cohorts, not just overall trends
+Key Insights (Reframed for Action)
+Lead time + patient history effects: Certain groups consistently exhibited higher no-show rates, indicating predictable behavioral patterns
+Non-chronic minors emerged as a high-risk segment, suggesting lower perceived urgency for appointments
+Geographic variation (e.g., specific neighborhoods) revealed concentrated pockets of no-show risk
+Temporal patterns suggested weekday-based variation, enabling targeted scheduling interventions
 
-## Author
-**Ananya Sripathi** - Data Analytics / Data Science Enthusiast
+Intervention Strategy (What a hospital could actually do)
+
+Instead of broad outreach, this analysis supports targeted intervention allocation:
+
+Prioritize reminder calls / notifications for high-risk appointment windows (e.g., midweek slots)
+Focus outreach on high-risk neighborhoods, where marginal impact is highest
+Design targeted communication strategies for low-engagement groups (e.g., minors without chronic conditions)
+Business Impact (Modeled Scenario)
+
+To evaluate practical value, I modeled a conservative intervention scenario:
+
+Avg. cost per appointment: ~$100
+If no-shows reduced by 10%:
+~2,200 additional completed appointments annually
+≈ $220K recovered value
+
+Estimated intervention cost (targeted outreach): ~$5K/year
+
+Important Tradeoffs & Considerations
+Increasing recall (identifying more high-risk patients) may increase false positives, leading to unnecessary outreach
+Intervention effectiveness depends on patient responsiveness, not just identification
+Dataset limitations (e.g., missing behavioral/contextual factors) may affect generalizability
+Dashboard
+
+Interactive Tableau dashboard:
+https://public.tableau.com/app/profile/ananya.sripathi/viz/Why1in5PeopleMissAppointmentsinBrazil/Dashboard2
+
+What I’d Do Next
+Incorporate predictive modeling for appointment-level risk scoring
+Run A/B tests on intervention strategies (reminders vs overbooking)
+Integrate with scheduling systems for real-time decision support
+Refine ROI model using actual intervention outcomes
+Author
+
+Ananya Sripathi
+Data Analytics | Healthcare & Predictive Modeling
 
 
